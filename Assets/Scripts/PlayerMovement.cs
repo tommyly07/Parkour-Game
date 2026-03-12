@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D body;
     public float speed = 5f;
+    public float jumpForce = 5f;
 
     private void Awake()
     {
@@ -24,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
 
        body.linearVelocity = new Vector2(move * speed, body.linearVelocity.y);
 
+        //Wenn wir SpaceTaste gedrückt halten, erhöhen wir die Geschwindigkeit nach oben
+         if (Keyboard.current.spaceKey.wasPressedThisFrame)
+         body.linearVelocity = new Vector2(body.linearVelocity.x, jumpForce);
     }
 }
 
