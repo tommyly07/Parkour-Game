@@ -6,21 +6,23 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     public float speed = 5f;
     public float jumpForce = 5f;
+    private Animator animation;
 
     private void Awake()
     {
-        //Rigidbody2D wird in body gespeichert
+        //Nimm die Referenzen für Rigidbody2D und Animator von Objekten
         body = GetComponent<Rigidbody2D>(); 
+        animation = GetComponent<Animator>();
     }
     private void Update()
     {
        float move = 0;
 
-       if(Keyboard.current.aKey.isPressed)
-       move -= 1;
-
-       if(Keyboard.current.dKey.isPressed)
-       move += 1;
+        //Bewegung mit Keyboard
+        if(Keyboard.current.aKey.isPressed)
+        move -= 1;
+        if(Keyboard.current.dKey.isPressed)
+        move += 1;
 
         //Bewegung
         body.linearVelocity = new Vector2(move * speed, body.linearVelocity.y);
@@ -34,8 +36,11 @@ public class PlayerMovement : MonoBehaviour
         //Wenn wir SpaceTaste gedrückt halten, erhöhen wir die Geschwindigkeit nach oben
          if (Keyboard.current.spaceKey.wasPressedThisFrame)
          body.linearVelocity = new Vector2(body.linearVelocity.x, jumpForce);
+
+
+        //Animator paramater Boolean
+        bool isRunning = move != 0;
+        animation.SetBool("Run", isRunning);
     }
-
-
 }
 
