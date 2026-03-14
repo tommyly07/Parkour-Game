@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 5f;
     public float jumpForce = 5f;
     private Animator animation;
+    private bool grounded;
 
     private void Awake()
     {
@@ -33,14 +34,24 @@ public class PlayerMovement : MonoBehaviour
         else if(move < 0)
         transform.localScale = new Vector3(-1,1,1);
 
-        //Wenn wir SpaceTaste gedrückt halten, erhöhen wir die Geschwindigkeit nach oben
-         if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        //Springen
+         if (Keyboard.current.spaceKey.wasPressedThisFrame && grounded){
          body.linearVelocity = new Vector2(body.linearVelocity.x, jumpForce);
+         animation.SetTrigger("Jump");
+         grounded = false;
+         }
 
 
         //Animator paramater Boolean
         bool isRunning = move != 0;
         animation.SetBool("Run", isRunning);
+
+        animation.SetBool("grounded", grounded);
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Ground")
+        grounded = true;
     }
 }
 
