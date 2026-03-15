@@ -96,7 +96,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                body.linearVelocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, 6); //1 facing right, -1 facing left
+                //1 facing right, -1 facing left
+                body.linearVelocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, 6);
 
             }
         }
