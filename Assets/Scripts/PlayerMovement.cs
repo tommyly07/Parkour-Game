@@ -102,27 +102,34 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-
-
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-
-    }
-
-
-
     private bool isGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxcollider.bounds.center, boxcollider.bounds.size, 0, Vector2.down, 0.3f, groundlayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(
+            boxcollider.bounds.center,
+            boxcollider.bounds.size,
+            0,
+            Vector2.down, 0.3f,
+            groundlayer);
+
         return raycastHit.collider != null;
     }
 
     private bool onWall()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxcollider.bounds.center, boxcollider.bounds.size, 0, new Vector2(transform.localScale.x, 0), 0.3f, walllayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(
+            boxcollider.bounds.center,
+            boxcollider.bounds.size,
+             0,
+             new Vector2(transform.localScale.x, 0),
+             0.3f,
+             walllayer);
+
         return raycastHit.collider != null;
+    }
+
+    public bool canAttack()
+    {
+        return isGrounded() || onWall();
     }
 }
 
