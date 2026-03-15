@@ -4,17 +4,25 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D body;
-    public float speed = 5f;
-    public float jumpForce = 5f;
+    [SerializeField]private float speed;
+    [SerializeField]private float jumpForce;
     private Animator animation;
-    private bool grounded;
+    private BoxCollider2D boxcollider;
+    [SerializeField]private LayerMask groundlayer;
+
+
+
 
     private void Awake()
     {
         //Nimm die Referenzen für Rigidbody2D und Animator von Objekten
         body = GetComponent<Rigidbody2D>(); 
         animation = GetComponent<Animator>();
+        boxcollider = GetComponent<BoxCollider2D>();
     }
+
+
+
     private void Update()
     {
        float move = 0;
@@ -35,23 +43,31 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = new Vector3(-1,1,1);
 
         //Springen
-         if (Keyboard.current.spaceKey.wasPressedThisFrame && grounded){
+         if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded()){
          body.linearVelocity = new Vector2(body.linearVelocity.x, jumpForce);
          animation.SetTrigger("Jump");
-         grounded = false;
          }
-
 
         //Animator paramater Boolean
         bool isRunning = move != 0;
         animation.SetBool("Run", isRunning);
 
-        animation.SetBool("grounded", grounded);
+        animation.SetBool("grounded", isGrounded());
     }
+
+
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Ground")
-        grounded = true;
+       
+    }
+
+
+
+    private bool isGrounded()
+    {
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxcollider.bounds.center, boxcollider.bounds.size, 0, Vector2.down, 0.3f, groundlayer);
+        return raycastHit.collider != null;
     }
 }
 
