@@ -1,16 +1,35 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Animator animation;
+    private PlayerMovement playermovement;
+    [SerializeField] private float ShootCooldown;
+    private float cooldowntimer = Mathf.Infinity;
+
+
+    private void Awake()
     {
+        animation = GetComponent<Animator>();
+        playermovement = GetComponent<PlayerMovement>();
+    }
+
+    private void Update()
+    {
+
+        if (Keyboard.current.eKey.wasPressedThisFrame && cooldowntimer > ShootCooldown && playermovement.canShoot())
+            Shoot();
+
+            cooldowntimer += Time.deltaTime;
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Shoot()
     {
-        
+        animation.SetTrigger("shoot");
+        cooldowntimer = 0;
     }
+
 }
