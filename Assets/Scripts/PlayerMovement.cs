@@ -137,4 +137,9 @@ public class PlayerMovement : MonoBehaviour
         return isGrounded() && !onWall();
     }
 
+    public bool canShoot()
+    {
+        return move == 0 && isGrounded() && !onWall();
+    }
+
 }
