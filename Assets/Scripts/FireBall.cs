@@ -7,6 +7,7 @@ public class FireBall : MonoBehaviour
     private BoxCollider2D boxCollider;
     private Animator animation;
     private float direction;
+    private float lifetime;
 
 
     private void Awake()
@@ -23,6 +24,11 @@ public class FireBall : MonoBehaviour
         float movementSpeed = speed * Time.deltaTime * direction;
         transform.Translate(movementSpeed, 0, 0);
 
+        lifetime += Time.deltaTime;
+
+        if(lifetime > 5)
+        gameObject.SetActive(false);
+
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -35,6 +41,7 @@ public class FireBall : MonoBehaviour
 
     public void SetDirection(float _direction)
     {
+        lifetime = 0;
         direction = _direction;
         gameObject.SetActive(true);
         hit = false;
