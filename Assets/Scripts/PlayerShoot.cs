@@ -33,8 +33,20 @@ public class PlayerShoot : MonoBehaviour
         animation.SetTrigger("shoot");
         cooldowntimer = 0;
 
-        fireballs[0].transform.position = firepoint.position;
-        fireballs[0].GetComponent<FireBall>().SetDirection(Mathf.Sign(transform.localScale.x));
+        fireballs[FindFireball()].transform.position = firepoint.position;
+        fireballs[FindFireball()].GetComponent<FireBall>().SetDirection(Mathf.Sign(transform.localScale.x));
+    }
+
+    private int FindFireball()
+    {
+        for(int i = 0; i < fireballs.Length; i++)
+        {
+            if(!fireballs[i].activeInHierarchy)
+            return i;
+        }
+        
+        
+        return 0;
     }
 
 }
