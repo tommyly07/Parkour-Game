@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                //1 facing right, -1 facing left
+                //1 schaut nacht rechts, -1 schaut nach links
                 body.linearVelocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, 6);
 
             }
